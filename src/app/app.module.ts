@@ -12,6 +12,9 @@ import { BlogEditComponent } from './blog-edit/blog-edit.component';
 import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 
+//import statement for service
+import { BlogService } from './blog.service';
+
 //Decorators - they tell the file what is being executed. "How is being executed" is handled in "export class AppModule" below.
 @NgModule({
   declarations: [
@@ -36,7 +39,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       { path: '**', component: NotFoundComponent }
     ])
   ],
-  providers: [],
+  providers: [BlogService],
   bootstrap: [AppComponent]     //telling the application that this is the first component to load
 })
 export class AppModule {
