@@ -3,11 +3,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import { BlogHttpService } from '../blog-http.service';
 import { BlogService } from '../blog.service';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-blog-view',
   templateUrl: './blog-view.component.html',
-  styleUrls: ['./blog-view.component.css']
+  styleUrls: ['./blog-view.component.css'],
+  providers: [Location]
 })
 export class BlogViewComponent implements OnInit, OnDestroy {
 
@@ -15,10 +18,11 @@ export class BlogViewComponent implements OnInit, OnDestroy {
   public currentBlog;
 
   //parameteres are passed to the constructor to transfer the imported module to the class.
-  constructor(private _route: ActivatedRoute, private router: Router, public blogHttpService: BlogHttpService) { //_route and router are conventional names.
+  constructor(private _route: ActivatedRoute, private router: Router, public blogHttpService: BlogHttpService, private toastr: ToastrManager, private location: Location) { //_route and router are conventional names.
 
     //this.currentBlog = this.blogService.currentBlog;
     console.log("Blog-View Constructor is Called");
+
   }
 
   ngOnInit(): void {
@@ -41,6 +45,28 @@ export class BlogViewComponent implements OnInit, OnDestroy {
       }
     )
 
+  }
+
+  public deleteThisBlog(): any {
+    this.blogHttpService.deleteBlog(this.currentBlog.blogId).subscribe(
+
+      data => {
+        console.log(data);
+        this.toastr.successToastr("Blog Deleted Successfully", "Success!")
+        setTimeout(() => {
+          this.router.navigate(['/home'])
+        }, 1000)
+      },
+      error => {
+        console.log("some error occured");
+        console.log(error.errorMessage);
+        this.toastr.errorToastr("Some Error Occured", "Error!")
+      }
+    )
+  }
+
+  public goBack(): any {
+    this.location.back();
   }
 
   ngOnDestroy(): void {

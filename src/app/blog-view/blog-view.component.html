@@ -2,6 +2,7 @@
     <div class="row" *ngIf="currentBlog">
         <div class="col-md-12">
             <h2>{{currentBlog.title}}</h2>
+            <p>{{currentBlog.description}}</p>
             <small>blog number - {{currentBlog.blogId}}</small>
             <p>Posted By {{currentBlog.author}} on {{currentBlog.created | date}}</p>
             <p *ngIf="currentBlog.tags.length > 0 && currentBlog.tags.length!=undefined">
@@ -12,7 +13,8 @@
                 </span>
             </p>
             <hr>
-            <div [innerHtml]="currentBlog.bodyHtml"></div> <!--Another form of interpolation-->
+            <div [innerHtml]="currentBlog.bodyHtml"></div>
+            <!--Another form of interpolation-->
             <hr>
             <h5>Category - {{currentBlog.category}}</h5>
         </div>
@@ -23,10 +25,10 @@
             <a class="btn btn-primary" [routerLink]="['/edit',currentBlog.blogId]">Edit</a>
         </div>
         <div class="col-md-4">
-            <a class="btn btn-danger">Delete</a>
+            <a class="btn btn-danger" (click)="deleteThisBlog()">Delete</a>
         </div>
         <div class="col-md-4">
-            <a class="btn btn-warning">Go Back</a>
+            <a class="btn btn-warning" (click)="goBack()">Go Back</a>
         </div>
     </div>
 </div>

@@ -1,6 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+
+import { FormsModule } from '@angular/forms';
+
+//Toaster Animation Modules
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 //router module for setting up application level route
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +21,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 //import statement for service
 import { BlogService } from './blog.service';
 import { BlogHttpService } from './blog-http.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 //Decorators - they tell the file what is being executed. "How is being executed" is handled in "export class AppModule" below.
 @NgModule({
@@ -30,6 +37,10 @@ import { BlogHttpService } from './blog-http.service';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     //routerModule forRoot method to declare the possible routes in application.
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
@@ -39,8 +50,7 @@ import { BlogHttpService } from './blog-http.service';
       { path: 'create', component: BlogCreateComponent },
       { path: 'edit/:blogId', component: BlogEditComponent },
       { path: '**', component: NotFoundComponent }
-    ]),
-    HttpClientModule
+    ]) 
   ],
   providers: [BlogService, BlogHttpService],
   bootstrap: [AppComponent]     //telling the application that this is the first component to load
