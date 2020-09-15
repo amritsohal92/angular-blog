@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 //Importing route related code
 import { ActivatedRoute, Router } from '@angular/router'
+import { BlogHttpService } from '../blog-http.service';
 import { BlogService } from '../blog.service';
 
 @Component({
@@ -14,8 +15,8 @@ export class BlogViewComponent implements OnInit, OnDestroy {
   public currentBlog;
 
   //parameteres are passed to the constructor to transfer the imported module to the class.
-  constructor(private _route: ActivatedRoute, private router: Router, public blogService: BlogService) { //_route and router are conventional names.
-    
+  constructor(private _route: ActivatedRoute, private router: Router, public blogHttpService: BlogHttpService) { //_route and router are conventional names.
+
     //this.currentBlog = this.blogService.currentBlog;
     console.log("Blog-View Constructor is Called");
   }
@@ -28,9 +29,18 @@ export class BlogViewComponent implements OnInit, OnDestroy {
     console.log(myBlogId);
 
     //calling the function to get the blog with this blogId out of the overall array
-    this.blogService.getSingleBlogInformation(myBlogId);
+    this.blogHttpService.getSingleBlogInformation(myBlogId).subscribe(
 
-    this.currentBlog = this.blogService.currentBlog;
+      data => {
+        console.log(data);
+        this.currentBlog = data["data"]
+      },
+      error => {
+        console.log("some error message");
+        console.log(error.errorMessage);
+      }
+    )
+
   }
 
   ngOnDestroy(): void {

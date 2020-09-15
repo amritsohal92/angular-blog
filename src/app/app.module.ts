@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 //router module for setting up application level route
 import { RouterModule, Routes } from '@angular/router';
@@ -14,6 +15,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 //import statement for service
 import { BlogService } from './blog.service';
+import { BlogHttpService } from './blog-http.service';
 
 //Decorators - they tell the file what is being executed. "How is being executed" is handled in "export class AppModule" below.
 @NgModule({
@@ -37,9 +39,10 @@ import { BlogService } from './blog.service';
       { path: 'create', component: BlogCreateComponent },
       { path: 'edit/:blogId', component: BlogEditComponent },
       { path: '**', component: NotFoundComponent }
-    ])
+    ]),
+    HttpClientModule
   ],
-  providers: [BlogService],
+  providers: [BlogService, BlogHttpService],
   bootstrap: [AppComponent]     //telling the application that this is the first component to load
 })
 export class AppModule {
